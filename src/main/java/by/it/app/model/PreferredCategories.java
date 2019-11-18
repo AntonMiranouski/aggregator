@@ -37,4 +37,14 @@ public class PreferredCategories {
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "PreferredCategories{" +
+                "id=" + id +
+                ", range=" + range +
+                ", user=" + user +
+                ", category=" + category +
+                '}';
+    }
 }

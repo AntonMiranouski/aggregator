@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class PreferredWebsites {
 
     @Id
-    @Column(name="ID", nullable = false, unique = true)
+    @Column(name = "ID", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -36,5 +36,15 @@ public class PreferredWebsites {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "PreferredWebsites{" +
+                "id=" + id +
+                ", range=" + range +
+                ", user=" + user +
+                ", website=" + website +
+                '}';
     }
 }

@@ -37,15 +37,6 @@ public class AppConfiguration {
     @Value("${spring.datasource.password}")
     private String password;
 
-    @Value("${spring.jpa.properties.hibernate.default_schema}")
-    private String defaultSchema;
-
-    @Value("${spring.jpa.hibernate.ddl-auto}")
-    private String ddlAuto;
-
-    @Value("${spring.jpa.show-sql}")
-    private String showSql;
-
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource driverManager = new DriverManagerDataSource();
@@ -76,9 +67,8 @@ public class AppConfiguration {
 
     private Properties additionalProperties(){
         Properties properties = new Properties();
-        properties.getProperty(defaultSchema);
-        properties.getProperty(ddlAuto);
-        properties.getProperty(showSql);
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
         return properties;
     }
 

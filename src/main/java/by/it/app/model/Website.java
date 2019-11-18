@@ -12,9 +12,6 @@ public class Website {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NAME")
-    private String name;
-
     @Column(name = "URL", nullable = false, unique = true)
     private String url;
 
@@ -27,23 +24,12 @@ public class Website {
         inverseJoinColumns = {@JoinColumn(name = "CATEGORIES_ID")})
     private Set<Category> categories;
 
-    @OneToMany(mappedBy = "website")
-    private Set<PreferredWebsites> preferredWebsites;
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getUrl() {
@@ -74,9 +60,9 @@ public class Website {
     public String toString() {
         return "Website{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
                 ", url='" + url + '\'' +
                 ", state=" + state +
+                ", categories=" + categories +
                 '}';
     }
 }

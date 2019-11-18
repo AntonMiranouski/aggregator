@@ -18,9 +18,6 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private Set<Website> websites;
 
-    @OneToMany(mappedBy = "category")
-    private Set<PreferredCategories> preferredCategories;
-
     public Long getId() {
         return id;
     }
