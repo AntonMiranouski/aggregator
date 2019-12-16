@@ -4,15 +4,15 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "CATEGORIES", schema = "PUBLIC")
+@Table(name = "CATEGORIES")
 public class Category {
 
     @Id
-    @Column(name="ID", nullable = false, unique = true)
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", unique = true, nullable = false)
     private String name;
 
     @ManyToMany(mappedBy = "categories")
@@ -40,13 +40,5 @@ public class Category {
 
     public void setWebsites(Set<Website> websites) {
         this.websites = websites;
-    }
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

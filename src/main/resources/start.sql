@@ -1,0 +1,6 @@
+INSERT INTO "USERS" (ID, USERNAME, PASSWORD, EMAIL, ADMIN) VALUES (1, 'bob', '123456', 'bobster@bob.com', true);
+INSERT INTO "USERS" (ID, USERNAME, PASsWORD, EMAIL, ADMIN) VALUES (2, 'jan', '654321' ,'jan@jan.com', false);
+
+INSERT INTO "WEBSITES" (ID, URL) VALUES (1, 'svaboda.org');
+INSERT INTO "WEBSITES" (ID, URL) VALUES (2, 'nn.by');
+

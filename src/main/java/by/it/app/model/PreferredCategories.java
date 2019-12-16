@@ -1,17 +1,19 @@
 package by.it.app.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "PREFERRED_CATEGORIES", schema = "PUBLIC")
+@Table(name = "PREFERRED_CATEGORIES")
 public class PreferredCategories {
 
     @Id
-    @Column(name="ID", nullable = false, unique = true)
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "RANGE")
+    @Size(min = 1, max = 10)
     private Integer range;
 
     @ManyToOne
@@ -36,15 +38,5 @@ public class PreferredCategories {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "PreferredCategories{" +
-                "id=" + id +
-                ", range=" + range +
-                ", user=" + user +
-                ", category=" + category +
-                '}';
     }
 }

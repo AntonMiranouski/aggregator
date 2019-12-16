@@ -1,36 +1,30 @@
-package by.it.app.model;
+package by.it.app.dto.request;
 
-import javax.persistence.*;
+import by.it.app.model.PreferredCategories;
+import by.it.app.model.PreferredWebsites;
+
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
-@Entity
-@Table(name = "USERS")
-public class User {
+public class UserRequest {
 
-    @Id
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "USERNAME", nullable = false, unique = true)
+    @NotNull
     @Size(min = 2, max = 50, message = "Imia moža być ad 2 da 50 symbalaŭ")
     private String username;
 
+    @NotNull
     @Size(min = 6, message = "Parol pavinny składacca nia mieńš jak z 6 symbalaŭ")
     private String password;
 
-    @Column(name = "EMAIL", unique = true)
     @Email(message = "Niasapraŭdny email adras")
     private String email;
 
-    private Boolean admin;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<PreferredCategories> preferredCategories;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<PreferredWebsites> preferredWebsites;
 
     public Long getId() {
@@ -79,13 +73,5 @@ public class User {
 
     public void setPreferredWebsites(Set<PreferredWebsites> preferredWebsites) {
         this.preferredWebsites = preferredWebsites;
-    }
-
-    public Boolean getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
     }
 }

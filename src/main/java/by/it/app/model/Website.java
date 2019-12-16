@@ -1,27 +1,26 @@
 package by.it.app.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "WEBSITES", schema = "PUBLIC")
+@Table(name = "WEBSITES")
 public class Website {
 
     @Id
-    @Column(name="ID", nullable = false, unique = true)
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "URL", nullable = false, unique = true)
     private String url;
 
-    @Column(name = "STATE")
-    private boolean state;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "WEBSITE_CATEGORIES",
-        joinColumns = {@JoinColumn(name = "WEBSITE_ID")},
-        inverseJoinColumns = {@JoinColumn(name = "CATEGORIES_ID")})
+            joinColumns = {@JoinColumn(name = "WEBSITE_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "CATEGORIES_ID")})
     private Set<Category> categories;
 
     public Long getId() {
@@ -40,29 +39,11 @@ public class Website {
         this.url = url;
     }
 
-    public boolean isState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
     public Set<Category> getCategories() {
         return categories;
     }
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
-    }
-
-    @Override
-    public String toString() {
-        return "Website{" +
-                "id=" + id +
-                ", url='" + url + '\'' +
-                ", state=" + state +
-                ", categories=" + categories +
-                '}';
     }
 }
