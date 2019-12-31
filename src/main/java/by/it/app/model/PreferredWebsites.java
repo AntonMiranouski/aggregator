@@ -39,4 +39,20 @@ public class PreferredWebsites {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Website getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(Website website) {
+        this.website = website;
+    }
 }

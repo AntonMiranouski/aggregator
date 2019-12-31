@@ -1,26 +1,19 @@
-package by.it.app.model;
+package by.it.app.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import by.it.app.model.Website;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
-@Entity
-@Table(name = "CATEGORIES")
-public class Category {
+public class CategoryRequest {
 
-    @Id
-    @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NAME", unique = true, nullable = false)
+    @NotNull
     @Size(min = 3, max = 50, message = "Imia katehoryi moža być ad 2 da 50 symbalaŭ")
     private String name;
 
-    @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
-    @JsonIgnore
     private Set<Website> websites;
 
     public Long getId() {
@@ -45,13 +38,5 @@ public class Category {
 
     public void setWebsites(Set<Website> websites) {
         this.websites = websites;
-    }
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

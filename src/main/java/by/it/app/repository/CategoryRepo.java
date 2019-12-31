@@ -9,10 +9,9 @@ import java.util.List;
 
 public interface CategoryRepo extends JpaRepository<Category, Long> {
 
+    @Query("select c.name from Category c inner join c.websites w where w.id = :id")
+    List<String> categoriesByWebsiteId(@Param("id") Long id);
+
     Category findByName(String name);
 
-    @Query(value = "select c.name from categories c " +
-            "inner join website_categories wc on c.id = wc.categories_id " +
-            "inner join websites w on wc.website_id = w.id where w.id = :id", nativeQuery = true)
-    List<String> categoriesNamesByWebsiteId(@Param("id") Long id);
 }

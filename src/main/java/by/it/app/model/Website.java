@@ -1,8 +1,8 @@
 package by.it.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -18,9 +18,10 @@ public class Website {
     private String url;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "WEBSITE_CATEGORIES",
+    @JoinTable(name = "WEBSITES_CATEGORIES",
             joinColumns = {@JoinColumn(name = "WEBSITE_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "CATEGORIES_ID")})
+            inverseJoinColumns = {@JoinColumn(name = "CATEGORY_ID")})
+    @JsonIgnore
     private Set<Category> categories;
 
     public Long getId() {
@@ -45,5 +46,13 @@ public class Website {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
+    }
+
+    @Override
+    public String toString() {
+        return "Website{" +
+                "id=" + id +
+                ", url='" + url + '\'' +
+                '}';
     }
 }

@@ -15,8 +15,6 @@ public class UserResponse {
 
     private String email;
 
-    private Boolean admin;
-
     private Set<PreferredCategories> preferredCategories;
 
     private Set<PreferredWebsites> preferredWebsites;
@@ -67,13 +65,5 @@ public class UserResponse {
 
     public void setPreferredWebsites(Set<PreferredWebsites> preferredWebsites) {
         this.preferredWebsites = preferredWebsites;
-    }
-
-    public Boolean getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
     }
 }

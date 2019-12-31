@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 public class WebsiteController {
 
     private final WebsiteService websiteService;
-
     private final Mapper mapper;
 
     public WebsiteController(WebsiteService websiteService, Mapper mapper) {
@@ -42,6 +41,15 @@ public class WebsiteController {
         final Website website = websiteService.findById(id);
         final WebsiteResponse websiteResponse = mapper.map(website, WebsiteResponse.class);
         return new ResponseEntity<>(websiteResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/by_category/{categoryId}")
+    public ResponseEntity<List<WebsiteResponse>> getByCategoryIdAnother(@PathVariable Long categoryId) {
+        final List<Website> websiteList = websiteService.websitesByCategoryId(categoryId);
+        final List<WebsiteResponse> websiteResponseList = websiteList.stream()
+                .map(website -> mapper.map(website, WebsiteResponse.class))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(websiteResponseList, HttpStatus.OK);
     }
 
     @PostMapping

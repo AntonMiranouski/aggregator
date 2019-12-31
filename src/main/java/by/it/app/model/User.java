@@ -25,8 +25,6 @@ public class User {
     @Email(message = "Niasapraŭdny email adras")
     private String email;
 
-    private Boolean admin;
-
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<PreferredCategories> preferredCategories;
 
@@ -79,13 +77,5 @@ public class User {
 
     public void setPreferredWebsites(Set<PreferredWebsites> preferredWebsites) {
         this.preferredWebsites = preferredWebsites;
-    }
-
-    public Boolean getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Boolean admin) {
-        this.admin = admin;
     }
 }

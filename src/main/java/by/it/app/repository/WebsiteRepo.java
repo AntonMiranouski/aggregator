@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface WebsiteRepo extends JpaRepository<Website, Long> {
 
-    @Query("select w.url from Website w inner join w.categories c where c.id = :id")
-    List<String> urlByCategoryId(@Param("id") Long id);
+    @Query("from Website w inner join w.categories c where c.id = :id")
+    List<Website> websitesByCategoryId(@Param("id") Long categoryId);
+
+    Website findByUrl(String url);
 }

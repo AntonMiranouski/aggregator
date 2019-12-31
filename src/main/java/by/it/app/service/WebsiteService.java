@@ -13,4 +13,6 @@ public interface WebsiteService {
     Website save(Website website);
 
     void deleteById(Long id);
+
+    List<Website> websitesByCategoryId(Long categoryId);
 }

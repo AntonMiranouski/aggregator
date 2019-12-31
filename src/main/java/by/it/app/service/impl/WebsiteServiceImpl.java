@@ -38,4 +38,10 @@ public class WebsiteServiceImpl implements WebsiteService {
     public void deleteById(Long id) {
         websiteRepo.deleteById(id);
     }
+
+    @Override
+    public List<Website> websitesByCategoryId(Long categoryId) {
+        return websiteRepo.websitesByCategoryId(categoryId);
+    }
+
 }
