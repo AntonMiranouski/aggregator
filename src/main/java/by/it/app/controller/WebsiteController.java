@@ -44,7 +44,7 @@ public class WebsiteController {
     }
 
     @GetMapping("/by_category/{categoryId}")
-    public ResponseEntity<List<WebsiteResponse>> getByCategoryIdAnother(@PathVariable Long categoryId) {
+    public ResponseEntity<List<WebsiteResponse>> getByCategoryId(@PathVariable Long categoryId) {
         final List<Website> websiteList = websiteService.websitesByCategoryId(categoryId);
         final List<WebsiteResponse> websiteResponseList = websiteList.stream()
                 .map(website -> mapper.map(website, WebsiteResponse.class))
