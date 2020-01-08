@@ -1,7 +1,7 @@
 package by.it.app.dto.response;
 
-import by.it.app.model.PreferredCategories;
-import by.it.app.model.PreferredWebsites;
+import by.it.app.model.Category;
+import by.it.app.model.Website;
 
 import java.util.Set;
 
@@ -15,9 +15,9 @@ public class UserResponse {
 
     private String email;
 
-    private Set<PreferredCategories> preferredCategories;
+    private Set<Category> categories;
 
-    private Set<PreferredWebsites> preferredWebsites;
+    private Set<Website> websites;
 
     public Long getId() {
         return id;
@@ -51,19 +51,19 @@ public class UserResponse {
         this.email = email;
     }
 
-    public Set<PreferredCategories> getPreferredCategories() {
-        return preferredCategories;
+    public Set<Category> getCategories() {
+        return categories;
     }
 
-    public void setPreferredCategories(Set<PreferredCategories> preferredCategories) {
-        this.preferredCategories = preferredCategories;
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 
-    public Set<PreferredWebsites> getPreferredWebsites() {
-        return preferredWebsites;
+    public Set<Website> getWebsites() {
+        return websites;
     }
 
-    public void setPreferredWebsites(Set<PreferredWebsites> preferredWebsites) {
-        this.preferredWebsites = preferredWebsites;
+    public void setWebsites(Set<Website> websites) {
+        this.websites = websites;
     }
 }

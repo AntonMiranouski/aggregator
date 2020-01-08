@@ -30,8 +30,13 @@ public class WebsiteServiceImpl implements WebsiteService {
     }
 
     @Override
+    public Website findBySecondLevelDomain(String url) {
+        return websiteRepo.findByUrlStartingWith(url);
+    }
+
+    @Override
     public Website save(Website website) {
-        return websiteRepo.save(website);
+        return websiteRepo.saveAndFlush(website);
     }
 
     @Override
@@ -40,8 +45,8 @@ public class WebsiteServiceImpl implements WebsiteService {
     }
 
     @Override
-    public List<Website> websitesByCategoryId(Long categoryId) {
-        return websiteRepo.websitesByCategoryId(categoryId);
+    public List<Website> findByCategoryId(Long categoryId) {
+        return websiteRepo.findByCategoryId(categoryId);
     }
 
 }

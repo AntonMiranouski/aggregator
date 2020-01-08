@@ -2,6 +2,7 @@ package by.it.app.controller;
 
 import by.it.app.dto.request.UserRequest;
 import by.it.app.dto.response.UserResponse;
+import by.it.app.exception.NonUniqueException;
 import by.it.app.exception.NotFoundException;
 import by.it.app.model.User;
 import by.it.app.service.UserService;
@@ -44,9 +45,25 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UserResponse> getByUsername(@PathVariable String username) {
+        final User user = userService.findByUsername(username);
+        if (user == null) {
+            throw new NotFoundException();
+        }
+        final UserResponse userResponse = mapper.map(user, UserResponse.class);
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<UserResponse> save(@Valid @RequestBody UserRequest userRequest) {
-        User user = getUser(userRequest);
+        userRequest.setId(null);
+        User user;
+        try {
+            user = getUser(userRequest);
+        } catch (RuntimeException e) {
+            throw new NonUniqueException();
+        }
         final UserResponse userResponse = mapper.map(user, UserResponse.class);
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }

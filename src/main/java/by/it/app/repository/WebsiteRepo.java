@@ -11,7 +11,7 @@ import java.util.List;
 public interface WebsiteRepo extends JpaRepository<Website, Long> {
 
     @Query("from Website w inner join w.categories c where c.id = :id")
-    List<Website> websitesByCategoryId(@Param("id") Long categoryId);
+    List<Website> findByCategoryId(@Param("id") Long categoryId);
 
-    Website findByUrl(String url);
+    Website findByUrlStartingWith(String sld);
 }

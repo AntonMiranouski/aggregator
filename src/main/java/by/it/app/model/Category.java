@@ -17,6 +17,7 @@ public class Category {
 
     @Column(name = "NAME", unique = true, nullable = false)
     @Size(min = 3, max = 50, message = "Imia katehoryi moža być ad 2 da 50 symbalaŭ")
+    @JsonIgnore
     private String name;
 
     @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
@@ -45,13 +46,5 @@ public class Category {
 
     public void setWebsites(Set<Website> websites) {
         this.websites = websites;
-    }
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

@@ -15,9 +15,10 @@ public class Website {
     private Long id;
 
     @Column(name = "URL", nullable = false, unique = true)
+    @JsonIgnore
     private String url;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "WEBSITES_CATEGORIES",
             joinColumns = {@JoinColumn(name = "WEBSITE_ID")},
             inverseJoinColumns = {@JoinColumn(name = "CATEGORY_ID")})
@@ -46,13 +47,5 @@ public class Website {
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
-    }
-
-    @Override
-    public String toString() {
-        return "Website{" +
-                "id=" + id +
-                ", url='" + url + '\'' +
-                '}';
     }
 }

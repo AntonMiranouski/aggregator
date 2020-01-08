@@ -15,7 +15,7 @@ public class User {
     private Long id;
 
     @Column(name = "USERNAME", nullable = false, unique = true)
-    @Size(min = 2, max = 50, message = "Imia moža być ad 2 da 50 symbalaŭ")
+    @Size(min = 2, max = 50, message = "Username '${validatedValue}' must be between {min} and {max} characters long")
     private String username;
 
     @Size(min = 6, message = "Parol pavinny składacca nia mieńš jak z 6 symbalaŭ")
@@ -25,11 +25,23 @@ public class User {
     @Email(message = "Niasapraŭdny email adras")
     private String email;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<PreferredCategories> preferredCategories;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "PREFERRED_CATEGORIES",
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "CATEGORY_ID")})
+    private Set<Category> categories;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<PreferredWebsites> preferredWebsites;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "PREFERRED_WEBSITES",
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "WEBSITE_ID")})
+    private Set<Website> websites;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "USERS_ROLES",
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID")})
+    private Set<Role> roles;
 
     public Long getId() {
         return id;
@@ -63,19 +75,27 @@ public class User {
         this.email = email;
     }
 
-    public Set<PreferredCategories> getPreferredCategories() {
-        return preferredCategories;
+    public Set<Category> getCategories() {
+        return categories;
     }
 
-    public void setPreferredCategories(Set<PreferredCategories> preferredCategories) {
-        this.preferredCategories = preferredCategories;
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 
-    public Set<PreferredWebsites> getPreferredWebsites() {
-        return preferredWebsites;
+    public Set<Website> getWebsites() {
+        return websites;
     }
 
-    public void setPreferredWebsites(Set<PreferredWebsites> preferredWebsites) {
-        this.preferredWebsites = preferredWebsites;
+    public void setWebsites(Set<Website> websites) {
+        this.websites = websites;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

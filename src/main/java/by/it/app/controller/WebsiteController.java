@@ -2,6 +2,7 @@ package by.it.app.controller;
 
 import by.it.app.dto.request.WebsiteRequest;
 import by.it.app.dto.response.WebsiteResponse;
+import by.it.app.exception.NonUniqueException;
 import by.it.app.exception.NotFoundException;
 import by.it.app.model.Website;
 import by.it.app.service.WebsiteService;
@@ -43,9 +44,27 @@ public class WebsiteController {
         return new ResponseEntity<>(websiteResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/sld/{sld}")
+    public ResponseEntity<WebsiteResponse> getBySecondLevelDomain(@PathVariable String sld) {
+        final Website website;
+        try {
+            website = websiteService.findBySecondLevelDomain(sld);
+        } catch (RuntimeException e) {
+            throw new NonUniqueException();
+        }
+        if (website == null) {
+            throw new NotFoundException();
+        }
+        final WebsiteResponse websiteResponse = mapper.map(website, WebsiteResponse.class);
+        return new ResponseEntity<>(websiteResponse, HttpStatus.OK);
+    }
+
     @GetMapping("/by_category/{categoryId}")
     public ResponseEntity<List<WebsiteResponse>> getByCategoryId(@PathVariable Long categoryId) {
-        final List<Website> websiteList = websiteService.websitesByCategoryId(categoryId);
+        final List<Website> websiteList = websiteService.findByCategoryId(categoryId);
+        if (websiteList.isEmpty()) {
+            throw new NotFoundException();
+        }
         final List<WebsiteResponse> websiteResponseList = websiteList.stream()
                 .map(website -> mapper.map(website, WebsiteResponse.class))
                 .collect(Collectors.toList());
@@ -54,7 +73,13 @@ public class WebsiteController {
 
     @PostMapping
     public ResponseEntity<WebsiteResponse> save(@Valid @RequestBody WebsiteRequest websiteRequest) {
-        Website website = getWebsite(websiteRequest);
+        websiteRequest.setId(null);
+        Website website;
+        try {
+            website = getWebsite(websiteRequest);
+        } catch (RuntimeException e) {
+            throw new NonUniqueException();
+        }
         final WebsiteResponse websiteResponse = mapper.map(website, WebsiteResponse.class);
         return new ResponseEntity<>(websiteResponse, HttpStatus.OK);
     }

@@ -1,7 +1,6 @@
 package by.it.app.dto.request;
 
 import by.it.app.model.Category;
-import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.NotNull;
 import java.util.Set;
@@ -11,7 +10,6 @@ public class WebsiteRequest {
     private Long id;
 
     @NotNull
-    @URL
     private String url;
 
     private Set<Category> categories;

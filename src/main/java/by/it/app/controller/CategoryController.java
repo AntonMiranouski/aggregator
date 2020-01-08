@@ -2,6 +2,7 @@ package by.it.app.controller;
 
 import by.it.app.dto.request.CategoryRequest;
 import by.it.app.dto.response.CategoryResponse;
+import by.it.app.exception.NonUniqueException;
 import by.it.app.exception.NotFoundException;
 import by.it.app.model.Category;
 import by.it.app.service.CategoryService;
@@ -43,10 +44,42 @@ public class CategoryController {
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/name/{name}")
+    public ResponseEntity<CategoryResponse> getByName(@PathVariable String name) {
+        final Category category;
+        try {
+            category = categoryService.findByName(name);
+        } catch (RuntimeException e) {
+            throw new NonUniqueException();
+        }
+        if (category == null){
+            throw new NotFoundException();
+        }
+        final CategoryResponse categoryResponse = mapper.map(category, CategoryResponse.class);
+        return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/by_website/{websiteId}")
+    public ResponseEntity<List<CategoryResponse>> getByWebsiteId(@PathVariable Long websiteId){
+        final List<Category> categoryList = categoryService.findByWebsiteId(websiteId);
+        if (categoryList.isEmpty()){
+            throw new NotFoundException();
+        }
+        final List<CategoryResponse> categoryResponseList = categoryList.stream()
+                .map(category -> mapper.map(category, CategoryResponse.class))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(categoryResponseList, HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<CategoryResponse> save(@Valid @RequestBody CategoryRequest categoryRequest) {
-        Category category = getCategory(categoryRequest);
+        categoryRequest.setId(null);
+        Category category;
+        try {
+            category = getCategory(categoryRequest);
+        } catch (RuntimeException e) {
+            throw new NotFoundException();
+        }
         final CategoryResponse categoryResponse = mapper.map(category, CategoryResponse.class);
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }

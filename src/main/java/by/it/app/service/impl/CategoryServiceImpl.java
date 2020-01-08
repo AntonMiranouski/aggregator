@@ -30,6 +30,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Category findByName(String name) {
+        return categoryRepo.findByNameIgnoreCase(name);
+    }
+
+    @Override
+    public List<Category> findByWebsiteId(Long websiteId) {
+        return categoryRepo.categoriesByWebsiteId(websiteId);
+    }
+
+    @Override
     public Category save(Category category) {
         return categoryRepo.saveAndFlush(category);
     }
