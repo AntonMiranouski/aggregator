@@ -45,6 +45,9 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
+    /**
+     * Get by username with a checking for the existence.
+     */
     @GetMapping("/username/{username}")
     public ResponseEntity<UserResponse> getByUsername(@PathVariable String username) {
         final User user = userService.findByUsername(username);
@@ -55,6 +58,9 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
+    /**
+     * Save with protection from overwriting and checking for the uniqueness of the username.
+     */
     @PostMapping
     public ResponseEntity<UserResponse> save(@Valid @RequestBody UserRequest userRequest) {
         userRequest.setId(null);
@@ -74,6 +80,9 @@ public class UserController {
         return user;
     }
 
+    /**
+     * Update with a checking for the existence.
+     */
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> update(
             @Valid @RequestBody UserRequest userRequest,

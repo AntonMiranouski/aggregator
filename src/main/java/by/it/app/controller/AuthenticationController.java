@@ -59,11 +59,11 @@ public class AuthenticationController {
     public User register(@RequestBody UserRequest userRequest) {
         final User user = new User();
         user.setUsername(userRequest.getUsername());
-        user.setPassword(userRequest.getPassword());
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setEmail(userRequest.getEmail());
 
         Set<Role> userRoles = new HashSet<>();
-        userRoles.add(roleService.findById(1L));
+        userRoles.add(roleService.findByName("ROLE_USER"));
         user.setRoles(userRoles);
         return userService.save(user);
     }

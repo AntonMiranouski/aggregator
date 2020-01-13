@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -40,8 +41,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cors()
                 .and()
                 .authorizeRequests().mvcMatchers("/authentication/**").permitAll()
-                .mvcMatchers("/users/**").hasRole("ADMIN");
-                //.anyRequest().authenticated();
+                .mvcMatchers("/users/**").hasRole("ADMIN")
+                .anyRequest().authenticated();
         final AuthenticationTokenFilter tokenFilter = new AuthenticationTokenFilter(tokenService, userDetailsService);
         http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
     }

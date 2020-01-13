@@ -42,6 +42,9 @@ public class RoleController {
         return new ResponseEntity<>(roleResponse, HttpStatus.OK);
     }
 
+    /**
+     * Save with protection from overwriting and checking for the uniqueness.
+     */
     @PostMapping
     public ResponseEntity<RoleResponse> save(@RequestBody RoleRequest roleRequest){
         roleRequest.setId(null);

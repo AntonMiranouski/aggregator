@@ -2,7 +2,6 @@ package by.it.app.service.impl;
 
 import by.it.app.exception.NotFoundException;
 import by.it.app.model.User;
-import by.it.app.repository.RoleRepo;
 import by.it.app.repository.UserRepo;
 import by.it.app.service.UserService;
 import org.springframework.stereotype.Service;

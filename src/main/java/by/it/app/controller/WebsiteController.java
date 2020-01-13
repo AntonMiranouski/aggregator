@@ -44,6 +44,9 @@ public class WebsiteController {
         return new ResponseEntity<>(websiteResponse, HttpStatus.OK);
     }
 
+    /**
+     * Gets by second level domain with a check on the existence and accuracy of the request.
+     */
     @GetMapping("/sld/{sld}")
     public ResponseEntity<WebsiteResponse> getBySecondLevelDomain(@PathVariable String sld) {
         final Website website;
@@ -59,6 +62,9 @@ public class WebsiteController {
         return new ResponseEntity<>(websiteResponse, HttpStatus.OK);
     }
 
+    /**
+     * Get by category id with checking for the existence of a category.
+     */
     @GetMapping("/by_category/{categoryId}")
     public ResponseEntity<List<WebsiteResponse>> getByCategoryId(@PathVariable Long categoryId) {
         final List<Website> websiteList = websiteService.findByCategoryId(categoryId);
@@ -71,6 +77,9 @@ public class WebsiteController {
         return new ResponseEntity<>(websiteResponseList, HttpStatus.OK);
     }
 
+    /**
+     * Save with protection from overwriting and checking for the uniqueness of the url.
+     */
     @PostMapping
     public ResponseEntity<WebsiteResponse> save(@Valid @RequestBody WebsiteRequest websiteRequest) {
         websiteRequest.setId(null);
@@ -90,6 +99,9 @@ public class WebsiteController {
         return website;
     }
 
+    /**
+     * Update with checking for the existence.
+     */
     @PutMapping("/{id}")
     public ResponseEntity<WebsiteResponse> update(
             @Valid @RequestBody WebsiteRequest websiteRequest,

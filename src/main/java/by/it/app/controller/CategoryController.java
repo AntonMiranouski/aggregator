@@ -44,6 +44,9 @@ public class CategoryController {
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
 
+    /**
+     * Get by name with checking for the existence and accuracy of the request.
+     */
     @GetMapping("/name/{name}")
     public ResponseEntity<CategoryResponse> getByName(@PathVariable String name) {
         final Category category;
@@ -59,6 +62,9 @@ public class CategoryController {
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
 
+    /**
+     * Get by website id with checking for the existence of a website.
+     */
     @GetMapping("/by_website/{websiteId}")
     public ResponseEntity<List<CategoryResponse>> getByWebsiteId(@PathVariable Long websiteId){
         final List<Category> categoryList = categoryService.findByWebsiteId(websiteId);
@@ -71,6 +77,9 @@ public class CategoryController {
         return new ResponseEntity<>(categoryResponseList, HttpStatus.OK);
     }
 
+    /**
+     * Save with protection from overwriting and checking for the uniqueness of the name.
+     */
     @PostMapping
     public ResponseEntity<CategoryResponse> save(@Valid @RequestBody CategoryRequest categoryRequest) {
         categoryRequest.setId(null);
@@ -78,7 +87,7 @@ public class CategoryController {
         try {
             category = getCategory(categoryRequest);
         } catch (RuntimeException e) {
-            throw new NotFoundException();
+            throw new NonUniqueException();
         }
         final CategoryResponse categoryResponse = mapper.map(category, CategoryResponse.class);
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
@@ -90,6 +99,9 @@ public class CategoryController {
         return category;
     }
 
+    /**
+     * Update with checking for the existence.
+     */
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponse> update(
             @Valid @RequestBody CategoryRequest categoryRequest,

@@ -36,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> findByWebsiteId(Long websiteId) {
-        return categoryRepo.categoriesByWebsiteId(websiteId);
+        return categoryRepo.findByWebsiteId(websiteId);
     }
 
     @Override

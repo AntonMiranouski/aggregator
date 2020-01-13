@@ -1,3 +1,5 @@
+/*https://www.devglan.com/online-tools/bcrypt-hash-generator*/
+
 INSERT INTO "USERS" (ID, USERNAME, PASSWORD, EMAIL)
 VALUES (1, 'admin', '$2a$04$Q92jgOvC2Oap/blS8vc82Ogkw.LX6IudpGo5CiV5MJX5a5vHDdyGG', 'admin@mail.com');
 INSERT INTO "USERS" (ID, USERNAME, PASsWORD, EMAIL)

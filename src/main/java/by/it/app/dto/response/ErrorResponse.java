@@ -2,6 +2,9 @@ package by.it.app.dto.response;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Error response for AuthenticationTokenFilter.
+ */
 public class ErrorResponse {
 
     private HttpStatus httpStatus;

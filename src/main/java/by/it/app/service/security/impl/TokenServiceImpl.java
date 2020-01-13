@@ -25,11 +25,6 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public String refresh(String token) {
-        return generate(extractUsername(token));
-    }
-
-    @Override
     public String extractUsername(String token) {
         return Jwts.parser()
                 .setSigningKey(JWT_SECRET)

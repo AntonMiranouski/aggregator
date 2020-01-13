@@ -33,6 +33,9 @@ public class DatabaseConfiguration {
     private String url;
 
 
+    /**
+     * A factory for connections to the physical data source.
+     */
     @Bean
     public DataSource dataSource() {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
@@ -40,6 +43,9 @@ public class DatabaseConfiguration {
                 .build();
     }
 
+    /**
+     * Construct a new Database Populator with the supplied values.
+     */
     @Bean
     public ResourceDatabasePopulator databasePopulator() {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
@@ -48,6 +54,9 @@ public class DatabaseConfiguration {
         return populator;
     }
 
+    /**
+     * Populates a database using SQL scripts defined in "start.sql".
+     */
     @Bean
     public InitializingBean populatorExecutor() {
         return () -> DatabasePopulatorUtils.execute(databasePopulator(), dataSource());
@@ -55,7 +64,8 @@ public class DatabaseConfiguration {
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean
+                = new LocalContainerEntityManagerFactoryBean();
         localContainerEntityManagerFactoryBean.setDataSource(dataSource());
         localContainerEntityManagerFactoryBean.setPackagesToScan("by.it.app.model");
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
