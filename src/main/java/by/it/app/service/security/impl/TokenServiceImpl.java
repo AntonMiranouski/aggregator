@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+/**
+ * The type Token service.
+ */
 @Service
 public class TokenServiceImpl implements TokenService {
 
@@ -37,7 +40,7 @@ public class TokenServiceImpl implements TokenService {
         try {
             Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(authToken);
             return true;
-        } catch (SignatureException e){
+        } catch (SignatureException e) {
             LOGGER.error("Invalid JWT signature", e);
             throw e;
         } catch (MalformedJwtException e) {

@@ -13,11 +13,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The type Authentication controller.
+ */
 @RestController
 @RequestMapping("/authentication")
 public class AuthenticationController {
@@ -32,6 +38,15 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * Instantiates a new Authentication controller.
+     *
+     * @param userService           the user service
+     * @param roleService           the role service
+     * @param tokenService          the token service
+     * @param passwordEncoder       the password encoder
+     * @param authenticationManager the authentication manager
+     */
     public AuthenticationController(
             UserService userService,
             RoleService roleService,
@@ -46,6 +61,12 @@ public class AuthenticationController {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * Authenticate token response.
+     *
+     * @param authRequest the authentication request
+     * @return the token response
+     */
     @PostMapping("/sign_in")
     public TokenResponse authenticate(@RequestBody AuthenticationRequest authRequest) {
         UsernamePasswordAuthenticationToken token =
@@ -55,6 +76,12 @@ public class AuthenticationController {
         return new TokenResponse(tokenService.generate(authentication));
     }
 
+    /**
+     * Register user.
+     *
+     * @param userRequest the user request
+     * @return the user
+     */
     @PostMapping("/sign_up")
     public User register(@RequestBody UserRequest userRequest) {
         final User user = new User();

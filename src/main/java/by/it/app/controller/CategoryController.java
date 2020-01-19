@@ -2,8 +2,6 @@ package by.it.app.controller;
 
 import by.it.app.dto.request.CategoryRequest;
 import by.it.app.dto.response.CategoryResponse;
-import by.it.app.exception.NonUniqueException;
-import by.it.app.exception.NotFoundException;
 import by.it.app.model.Category;
 import by.it.app.service.CategoryService;
 import org.dozer.Mapper;
@@ -49,15 +47,7 @@ public class CategoryController {
      */
     @GetMapping("/name/{name}")
     public ResponseEntity<CategoryResponse> getByName(@PathVariable String name) {
-        final Category category;
-        try {
-            category = categoryService.findByName(name);
-        } catch (RuntimeException e) {
-            throw new NonUniqueException();
-        }
-        if (category == null){
-            throw new NotFoundException();
-        }
+        final Category category = categoryService.findByName(name);
         final CategoryResponse categoryResponse = mapper.map(category, CategoryResponse.class);
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
@@ -66,11 +56,8 @@ public class CategoryController {
      * Get by website id with checking for the existence of a website.
      */
     @GetMapping("/by_website/{websiteId}")
-    public ResponseEntity<List<CategoryResponse>> getByWebsiteId(@PathVariable Long websiteId){
+    public ResponseEntity<List<CategoryResponse>> getByWebsiteId(@PathVariable Long websiteId) {
         final List<Category> categoryList = categoryService.findByWebsiteId(websiteId);
-        if (categoryList.isEmpty()){
-            throw new NotFoundException();
-        }
         final List<CategoryResponse> categoryResponseList = categoryList.stream()
                 .map(category -> mapper.map(category, CategoryResponse.class))
                 .collect(Collectors.toList());
@@ -82,21 +69,10 @@ public class CategoryController {
      */
     @PostMapping
     public ResponseEntity<CategoryResponse> save(@Valid @RequestBody CategoryRequest categoryRequest) {
-        categoryRequest.setId(null);
-        Category category;
-        try {
-            category = getCategory(categoryRequest);
-        } catch (RuntimeException e) {
-            throw new NonUniqueException();
-        }
-        final CategoryResponse categoryResponse = mapper.map(category, CategoryResponse.class);
-        return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
-    }
-
-    private Category getCategory(CategoryRequest categoryRequest) {
         final Category category = mapper.map(categoryRequest, Category.class);
         categoryService.save(category);
-        return category;
+        final CategoryResponse categoryResponse = mapper.map(category, CategoryResponse.class);
+        return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }
 
     /**
@@ -107,9 +83,10 @@ public class CategoryController {
             @Valid @RequestBody CategoryRequest categoryRequest,
             @PathVariable Long id) {
         if (!Objects.equals(id, categoryRequest.getId())) {
-            throw new NotFoundException();
+            throw new RuntimeException("Nia znojdziena katehoryja z takim id");
         }
-        Category category = getCategory(categoryRequest);
+        final Category category = mapper.map(categoryRequest, Category.class);
+        categoryService.update(category);
         final CategoryResponse categoryResponse = mapper.map(category, CategoryResponse.class);
         return new ResponseEntity<>(categoryResponse, HttpStatus.OK);
     }

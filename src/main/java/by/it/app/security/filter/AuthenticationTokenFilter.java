@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type Authentication token filter.
+ */
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     private static final String AUTHORIZATION = "Authorization";
@@ -26,6 +29,12 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     private UserDetailsService userDetailsService;
 
+    /**
+     * Instantiates a new Authentication token filter.
+     *
+     * @param tokenService       the token service
+     * @param userDetailsService the user details service
+     */
     public AuthenticationTokenFilter(TokenService tokenService, UserDetailsService userDetailsService) {
         this.tokenService = tokenService;
         this.userDetailsService = userDetailsService;
@@ -38,7 +47,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
         try {
             String token = getToken(httpServletRequest);
-            if (token != null && tokenService.validate(token)){
+            if (token != null && tokenService.validate(token)) {
                 String username = tokenService.extractUsername(token);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authenticationToken =
@@ -47,7 +56,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
             filterChain.doFilter(httpServletRequest, httpServletResponse);
-        } catch (Exception e){
+        } catch (Exception e) {
             ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
             httpServletResponse.setStatus(errorResponse.getHttpStatus().value());
             httpServletResponse.setContentType("application/json");
@@ -55,7 +64,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         }
     }
 
-    private String getToken(HttpServletRequest httpServletRequest){
+    private String getToken(HttpServletRequest httpServletRequest) {
         String authorizationHeader = httpServletRequest.getHeader(AUTHORIZATION);
         return authorizationHeader != null && authorizationHeader.startsWith(BEARER)
                 ? authorizationHeader.replace(BEARER, "") : authorizationHeader;

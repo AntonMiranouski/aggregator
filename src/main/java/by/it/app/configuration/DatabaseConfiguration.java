@@ -21,6 +21,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+/**
+ * The type Database configuration.
+ */
 @PropertySource("classpath:database.properties")
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {"by.it.app.repository"})
@@ -35,16 +38,19 @@ public class DatabaseConfiguration {
 
     /**
      * A factory for connections to the physical data source.
+     *
+     * @return the data source
      */
     @Bean
     public DataSource dataSource() {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        return builder.setType(EmbeddedDatabaseType.H2)
-                .build();
+        return builder.setType(EmbeddedDatabaseType.H2).build();
     }
 
     /**
      * Construct a new Database Populator with the supplied values.
+     *
+     * @return the resource database populator
      */
     @Bean
     public ResourceDatabasePopulator databasePopulator() {
@@ -56,12 +62,19 @@ public class DatabaseConfiguration {
 
     /**
      * Populates a database using SQL scripts defined in "start.sql".
+     *
+     * @return the initializing bean
      */
     @Bean
     public InitializingBean populatorExecutor() {
         return () -> DatabasePopulatorUtils.execute(databasePopulator(), dataSource());
     }
 
+    /**
+     * Entity manager factory.
+     *
+     * @return the local container entity manager factory bean
+     */
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean
@@ -74,6 +87,12 @@ public class DatabaseConfiguration {
         return localContainerEntityManagerFactoryBean;
     }
 
+    /**
+     * Transaction manager platform.
+     *
+     * @param emf the entity manager factory
+     * @return the platform transaction manager
+     */
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();

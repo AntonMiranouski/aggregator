@@ -5,9 +5,18 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * The type Transliterate.
+ */
 public class Transliterate {
 
-    public static String transliterate(String cyrillicText){
+    /**
+     * Transliterate string.
+     *
+     * @param cyrillicText the cyrillic text
+     * @return the string of latin text
+     */
+    public static String transliterate(String cyrillicText) {
         Map<String, String> alphabet = ImmutableMap.<String, String>builder()
                 .put("Бе", "Bie").put("Бё", "Bio").put("Бю", "Biu").put("Бя", "Bia")
                 .put("Ве", "Vie").put("Вё", "Vio").put("Вю", "Viu").put("Вя", "Via")
@@ -53,6 +62,6 @@ public class Transliterate {
                 .entrySet()
                 .stream()
                 .map(text -> (Function<String, String>) s -> s.replace(text.getKey(), text.getValue()))
-                .reduce(Function.identity(), Function ::andThen).apply(cyrillicText);
+                .reduce(Function.identity(), Function::andThen).apply(cyrillicText);
     }
 }

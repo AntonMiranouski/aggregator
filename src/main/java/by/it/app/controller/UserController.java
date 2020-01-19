@@ -2,8 +2,6 @@ package by.it.app.controller;
 
 import by.it.app.dto.request.UserRequest;
 import by.it.app.dto.response.UserResponse;
-import by.it.app.exception.NonUniqueException;
-import by.it.app.exception.NotFoundException;
 import by.it.app.model.User;
 import by.it.app.service.UserService;
 import org.dozer.Mapper;
@@ -51,9 +49,6 @@ public class UserController {
     @GetMapping("/username/{username}")
     public ResponseEntity<UserResponse> getByUsername(@PathVariable String username) {
         final User user = userService.findByUsername(username);
-        if (user == null) {
-            throw new NotFoundException();
-        }
         final UserResponse userResponse = mapper.map(user, UserResponse.class);
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
@@ -63,21 +58,10 @@ public class UserController {
      */
     @PostMapping
     public ResponseEntity<UserResponse> save(@Valid @RequestBody UserRequest userRequest) {
-        userRequest.setId(null);
-        User user;
-        try {
-            user = getUser(userRequest);
-        } catch (RuntimeException e) {
-            throw new NonUniqueException();
-        }
-        final UserResponse userResponse = mapper.map(user, UserResponse.class);
-        return new ResponseEntity<>(userResponse, HttpStatus.OK);
-    }
-
-    private User getUser(UserRequest userRequest) {
         final User user = mapper.map(userRequest, User.class);
         userService.save(user);
-        return user;
+        final UserResponse userResponse = mapper.map(user, UserResponse.class);
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
     /**
@@ -88,9 +72,10 @@ public class UserController {
             @Valid @RequestBody UserRequest userRequest,
             @PathVariable Long id) {
         if (!Objects.equals(id, userRequest.getId())) {
-            throw new NotFoundException();
+            throw new RuntimeException("Nia znojdzieny karystalnik z takim id");
         }
-        User user = getUser(userRequest);
+        final User user = mapper.map(userRequest, User.class);
+        userService.update(user);
         final UserResponse userResponse = mapper.map(user, UserResponse.class);
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }

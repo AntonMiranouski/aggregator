@@ -6,6 +6,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Objects;
 
+/**
+ * The type Authentication user details.
+ */
 public class AuthenticationUserDetails implements UserDetails {
 
     private Long id;
@@ -16,6 +19,14 @@ public class AuthenticationUserDetails implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
+    /**
+     * Instantiates a new Authentication user details.
+     *
+     * @param id          the id
+     * @param username    the username
+     * @param password    the password
+     * @param authorities the authorities
+     */
     public AuthenticationUserDetails(
             Long id, String username, String password, Collection<? extends GrantedAuthority> authorities
     ) {
@@ -25,6 +36,11 @@ public class AuthenticationUserDetails implements UserDetails {
         this.authorities = authorities;
     }
 
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     public Long getId() {
         return id;
     }

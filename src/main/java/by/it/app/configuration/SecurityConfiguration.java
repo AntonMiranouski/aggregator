@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
+/**
+ * The type Security configuration.
+ */
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -21,6 +24,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
 
+    /**
+     * Instantiates a new Security configuration.
+     *
+     * @param tokenService       the token service
+     * @param userDetailsService the user details service
+     */
     public SecurityConfiguration(TokenService tokenService, UserDetailsService userDetailsService) {
         this.tokenService = tokenService;
         this.userDetailsService = userDetailsService;
@@ -40,9 +49,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .cors()
                 .and()
-                .authorizeRequests().mvcMatchers("/authentication/**").permitAll()
-                .mvcMatchers("/users/**").hasRole("ADMIN")
-                .anyRequest().authenticated();
+                .authorizeRequests().mvcMatchers("/authentication/**").permitAll();
+        //.mvcMatchers("/users/**").hasRole("ADMIN");
+        //.anyRequest().authenticated();
         final AuthenticationTokenFilter tokenFilter = new AuthenticationTokenFilter(tokenService, userDetailsService);
         http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
