@@ -62,7 +62,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(value = RuntimeException.class)
     protected ResponseEntity<Object> handleRuntimeException(RuntimeException ex, WebRequest request) {
-        String httpStatus = ex.getMessage();
         LOGGER.error(ex.getMessage(), ex);
         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
         return handleExceptionInternal(ex, errorResponse, new HttpHeaders(), errorResponse.getHttpStatus(), request);
