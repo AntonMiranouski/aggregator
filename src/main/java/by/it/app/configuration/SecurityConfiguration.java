@@ -49,9 +49,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .cors()
                 .and()
-                .authorizeRequests().mvcMatchers("/authentication/**").permitAll();
-        //.mvcMatchers("/users/**").hasRole("ADMIN");
-        //.anyRequest().authenticated();
+                .authorizeRequests().mvcMatchers("/authentication/**").permitAll()
+                .mvcMatchers("/users/**").hasRole("ADMIN");
         final AuthenticationTokenFilter tokenFilter = new AuthenticationTokenFilter(tokenService, userDetailsService);
         http.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
