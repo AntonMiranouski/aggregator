@@ -44,9 +44,10 @@ class CategoryServiceImplTest {
     @Test
     void findByName() {
         final Category category = new Category();
-        category.setName("New category");
-        when(categoryRepo.findByNameIgnoreCase("new category")).thenReturn(category);
-        assertEquals(categoryService.findByName("new category"), category);
+        category.setName("Category");
+        when(categoryRepo.findByNameIgnoreCase("Category")).thenReturn(category);
+        when(categoryRepo.existsByName("Category")).thenReturn(true);
+        assertEquals(categoryService.findByName("Category"), category);
     }
 
     @Test
@@ -71,7 +72,9 @@ class CategoryServiceImplTest {
     @Test
     void deleteById() {
         final Category category = new Category();
+        category.setId(1L);
         doNothing().when(categoryRepo).deleteById(any(Long.class));
+        when(categoryRepo.findById(1L)).thenReturn(Optional.of(category));
         assertDoesNotThrow(() -> categoryService.deleteById(1L));
     }
 }
