@@ -29,13 +29,6 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages = {"by.it.app.repository"})
 public class DatabaseConfiguration {
 
-    @Value("${connection.driver_class}")
-    private String driverClass;
-
-    @Value("${connection.url}")
-    private String url;
-
-
     /**
      * A factory for connections to the physical data source.
      *

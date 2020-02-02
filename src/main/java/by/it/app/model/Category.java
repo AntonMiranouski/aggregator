@@ -1,6 +1,7 @@
 package by.it.app.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -80,5 +81,19 @@ public class Category {
      */
     public void setWebsites(Set<Website> websites) {
         this.websites = websites;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(id, category.id) &&
+                Objects.equals(name, category.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }
